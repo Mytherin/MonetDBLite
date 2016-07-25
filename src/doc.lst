@@ -21,6 +21,8 @@ sql/storage/bat/
 sql/server/
 sql/backends/
 sql/backends/monet5/
+sql/backends/monet5/UDF/
+sql/backends/monet5/UDF/pyapi/#HAVE_LIBPY
 sql/scripts/
 embedded/
 mapisplit/#HAVE_EMBEDDED_R

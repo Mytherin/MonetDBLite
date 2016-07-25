@@ -88,7 +88,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = common
+subdir = sql/backends/monet5/UDF
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/buildtools/conf/libtool.m4 \
 	$(top_srcdir)/buildtools/conf/ltoptions.m4 \
@@ -159,7 +159,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = pyapi
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -488,7 +488,9 @@ zlib_CFLAGS = @zlib_CFLAGS@
 zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = no-dependencies 1.4 foreign
 AM_CPPFLAGS = -I$(srcdir)
-SUBDIRS = stream options utils
+@HAVE_LIBPY_FALSE@HAVE_LIBPY_1_SUBDIR = 
+@HAVE_LIBPY_TRUE@HAVE_LIBPY_1_SUBDIR = pyapi
+SUBDIRS = $(HAVE_LIBPY_1_SUBDIR)
 BUILT_SOURCES = 
 MOSTLYCLEANFILES = 
 EXTRA_DIST = Makefile.ag Makefile.msc
@@ -505,9 +507,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign common/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign sql/backends/monet5/UDF/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign common/Makefile
+	  $(AUTOMAKE) --foreign sql/backends/monet5/UDF/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

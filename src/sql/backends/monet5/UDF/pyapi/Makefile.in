@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -89,7 +90,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = embedded
+subdir = sql/backends/monet5/UDF/pyapi
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/buildtools/conf/libtool.m4 \
 	$(top_srcdir)/buildtools/conf/ltoptions.m4 \
@@ -131,38 +132,24 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(embeddeddir)" \
-	"$(DESTDIR)$(embeddedrdir)"
-LTLIBRARIES = $(embedded_LTLIBRARIES) $(embeddedr_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(pyapidir)" "$(DESTDIR)$(bindir)"
+LTLIBRARIES = $(pyapi_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libembedded_la_DEPENDENCIES = ../mal/tools/libmonetdb5.la \
-	../gdk/libbat.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-dist_libembedded_la_OBJECTS = libembedded_la-embedded.lo
-nodist_libembedded_la_OBJECTS =
-libembedded_la_OBJECTS = $(dist_libembedded_la_OBJECTS) \
-	$(nodist_libembedded_la_OBJECTS)
+dist_lib_pyapi_la_OBJECTS = lib_pyapi_la-pyapi.lo \
+	lib_pyapi_la-unicode.lo lib_pyapi_la-pytypes.lo \
+	lib_pyapi_la-type_conversion.lo lib_pyapi_la-formatinput.lo \
+	lib_pyapi_la-connection.lo
+nodist_lib_pyapi_la_OBJECTS =
+lib_pyapi_la_OBJECTS = $(dist_lib_pyapi_la_OBJECTS) \
+	$(nodist_lib_pyapi_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libembedded_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libembedded_la_CFLAGS) $(CFLAGS) $(libembedded_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
-libembeddedr_la_DEPENDENCIES = libembedded.la ../gdk/libbat.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-dist_libembeddedr_la_OBJECTS = libembeddedr_la-embeddedr.lo
-nodist_libembeddedr_la_OBJECTS =
-libembeddedr_la_OBJECTS = $(dist_libembeddedr_la_OBJECTS) \
-	$(nodist_libembeddedr_la_OBJECTS)
-libembeddedr_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libembeddedr_la_CFLAGS) $(CFLAGS) $(libembeddedr_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
+lib_pyapi_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(lib_pyapi_la_CFLAGS) \
+	$(CFLAGS) $(lib_pyapi_la_LDFLAGS) $(LDFLAGS) -o $@
+SCRIPTS = $(bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -196,12 +183,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(dist_libembedded_la_SOURCES) \
-	$(nodist_libembedded_la_SOURCES) \
-	$(dist_libembeddedr_la_SOURCES) \
-	$(nodist_libembeddedr_la_SOURCES)
-DIST_SOURCES = $(dist_libembedded_la_SOURCES) \
-	$(dist_libembeddedr_la_SOURCES)
+SOURCES = $(dist_lib_pyapi_la_SOURCES) $(nodist_lib_pyapi_la_SOURCES)
+DIST_SOURCES = $(dist_lib_pyapi_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -528,24 +511,21 @@ valgrind_LIBS = @valgrind_LIBS@
 zlib_CFLAGS = @zlib_CFLAGS@
 zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = no-dependencies 1.4 foreign
-libembedded_la_CFLAGS = -DLIBEMBEDDED $(AM_CFLAGS)
-embeddeddir = $(libdir)
-libembedded_la_LIBADD = ../mal/tools/libmonetdb5.la ../gdk/libbat.la $(pcre_LIBS) $(PSAPILIB) $(SOCKET_LIBS) $(MALLOC_LIBS) $(DL_LIBS) $(PTHREAD_LIBS)
-nodist_libembedded_la_SOURCES = 
-dist_libembedded_la_SOURCES = embedded.c embedded.h
-libembedded_la_LDFLAGS = -version-info 1
-libembeddedr_la_CFLAGS = -DLIBEMBEDDEDR $(AM_CFLAGS)
-embeddedrdir = $(libdir)
-libembeddedr_la_LIBADD = libembedded.la ../gdk/libbat.la $(pcre_LIBS) $(PSAPILIB) $(SOCKET_LIBS) $(MALLOC_LIBS) $(DL_LIBS) $(PTHREAD_LIBS)
-nodist_libembeddedr_la_SOURCES = 
-dist_libembeddedr_la_SOURCES = embeddedr.c embeddedr.h
-libembeddedr_la_LDFLAGS = -version-info 1
-AM_CPPFLAGS = -I$(srcdir) -I../mal/mal -I$(srcdir)/../mal/mal -I../mal/modules/atoms -I$(srcdir)/../mal/modules/atoms -I../mal/modules/mal -I$(srcdir)/../mal/modules/mal -I../mal/modules/kernel -I$(srcdir)/../mal/modules/kernel -I../mal/extras/rapi -I$(srcdir)/../mal/extras/rapi -I../gdk -I$(srcdir)/../gdk -I../common/stream -I$(srcdir)/../common/stream -I../common/utils -I$(srcdir)/../common/utils -I../common/options -I$(srcdir)/../common/options -I../sql/include -I$(srcdir)/../sql/include -I../sql/server -I$(srcdir)/../sql/server -I../sql/common -I$(srcdir)/../sql/common -I../sql/storage -I$(srcdir)/../sql/storage -I../sql/storage/bat -I$(srcdir)/../sql/storage/bat -I../sql/backends/monet5 -I$(srcdir)/../sql/backends/monet5 $(pcre_CFLAGS)
+AM_CPPFLAGS = -I$(srcdir) -I../../../../../clients/mapilib -I$(srcdir)/../../../../../clients/mapilib -I../../../../../common/options -I$(srcdir)/../../../../../common/options -I../../../../../common/stream -I$(srcdir)/../../../../../common/stream -I../../../../../monetdb5/modules/atoms -I$(srcdir)/../../../../../monetdb5/modules/atoms -I../../../../../monetdb5/modules/mal -I$(srcdir)/../../../../../monetdb5/modules/mal -I../../../../../gdk -I$(srcdir)/../../../../../gdk -I../../../../../monetdb5/mal -I$(srcdir)/../../../../../monetdb5/mal -I../../../../../sql/backends/monet5 -I$(srcdir)/../../../../../sql/backends/monet5 -I../../../../../sql/common -I$(srcdir)/../../../../../sql/common -I../../../../../sql/include -I$(srcdir)/../../../../../sql/include -I../../../../../sql/server -I$(srcdir)/../../../../../sql/server -I../../../../../sql/storage -I$(srcdir)/../../../../../sql/storage $(libpy_CFLAGS)
+lib_pyapi_la_CFLAGS = -DLIBPYAPI $(AM_CFLAGS)
+pyapidir = $(libdir)/monetdb5
+lib_pyapi_la_LIBADD = ../../../../../monetdb5/tools/libmonetdb5.la ../../../../../gdk/libbat.la $(MALLOC_LIBS) $(libpy_LIBS)
+nodist_lib_pyapi_la_SOURCES = 
+dist_lib_pyapi_la_SOURCES = pyapi.c pyapi.h unicode.c unicode.h pytypes.c pytypes.h type_conversion.c type_conversion.h formatinput.c formatinput.h connection.c connection.h unspecified_evil.h
+lib_pyapi_la_DEPENDENCIES = $(libpy_LIBDEP)
+lib_pyapi_la_LDFLAGS = -module -avoid-version
+@NATIVE_WIN32_TRUE@C_pyapi_locatepython_bat = pyapi_locatepython.bat
+@NATIVE_WIN32_TRUE@C_script_pyapi_locatepython_bat = script_pyapi_locatepython.bat
 BUILT_SOURCES = 
 MOSTLYCLEANFILES = 
-EXTRA_DIST = Makefile.ag Makefile.msc embedded.c embedded.h embeddedr.c embeddedr.h
-embedded_LTLIBRARIES = libembedded.la
-embeddedr_LTLIBRARIES = libembeddedr.la
+EXTRA_DIST = Makefile.ag Makefile.msc 50_pyapi.mal connection.c connection.h formatinput.c formatinput.h pyapi.c pyapi.h pyapi.mal pyapi_locatepython.bat pytypes.c pytypes.h type_conversion.c type_conversion.h unicode.c unicode.h unspecified_evil.h
+pyapi_LTLIBRARIES = lib_pyapi.la
+bin_SCRIPTS = $(C_script_pyapi_locatepython_bat)
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -560,9 +540,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign embedded/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign sql/backends/monet5/UDF/pyapi/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign embedded/Makefile
+	  $(AUTOMAKE) --foreign sql/backends/monet5/UDF/pyapi/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -581,33 +561,33 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 
-install-embeddedLTLIBRARIES: $(embedded_LTLIBRARIES)
+install-pyapiLTLIBRARIES: $(pyapi_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	@list='$(embedded_LTLIBRARIES)'; test -n "$(embeddeddir)" || list=; \
+	@list='$(pyapi_LTLIBRARIES)'; test -n "$(pyapidir)" || list=; \
 	list2=; for p in $$list; do \
 	  if test -f $$p; then \
 	    list2="$$list2 $$p"; \
 	  else :; fi; \
 	done; \
 	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(embeddeddir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(embeddeddir)" || exit 1; \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(embeddeddir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(embeddeddir)"; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pyapidir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pyapidir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(pyapidir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(pyapidir)"; \
 	}
 
-uninstall-embeddedLTLIBRARIES:
+uninstall-pyapiLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@list='$(embedded_LTLIBRARIES)'; test -n "$(embeddeddir)" || list=; \
+	@list='$(pyapi_LTLIBRARIES)'; test -n "$(pyapidir)" || list=; \
 	for p in $$list; do \
 	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(embeddeddir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(embeddeddir)/$$f"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(pyapidir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(pyapidir)/$$f"; \
 	done
 
-clean-embeddedLTLIBRARIES:
-	-test -z "$(embedded_LTLIBRARIES)" || rm -f $(embedded_LTLIBRARIES)
-	@list='$(embedded_LTLIBRARIES)'; \
+clean-pyapiLTLIBRARIES:
+	-test -z "$(pyapi_LTLIBRARIES)" || rm -f $(pyapi_LTLIBRARIES)
+	@list='$(pyapi_LTLIBRARIES)'; \
 	locs=`for p in $$list; do echo $$p; done | \
 	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
 	      sort -u`; \
@@ -616,46 +596,43 @@ clean-embeddedLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-install-embeddedrLTLIBRARIES: $(embeddedr_LTLIBRARIES)
+lib_pyapi.la: $(lib_pyapi_la_OBJECTS) $(lib_pyapi_la_DEPENDENCIES) $(EXTRA_lib_pyapi_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(lib_pyapi_la_LINK) -rpath $(pyapidir) $(lib_pyapi_la_OBJECTS) $(lib_pyapi_la_LIBADD) $(LIBS)
+install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
-	@list='$(embeddedr_LTLIBRARIES)'; test -n "$(embeddedrdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(embeddedrdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(embeddedrdir)" || exit 1; \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(embeddedrdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(embeddedrdir)"; \
-	}
-
-uninstall-embeddedrLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(embeddedr_LTLIBRARIES)'; test -n "$(embeddedrdir)" || list=; \
+	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
+	fi; \
 	for p in $$list; do \
-	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(embeddedrdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(embeddedrdir)/$$f"; \
-	done
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f "$$d$$p"; then echo "$$d$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n' \
+	    -e 'h;s|.*|.|' \
+	    -e 'p;x;s,.*/,,;$(transform)' | sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1; } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) { files[d] = files[d] " " $$1; \
+	      if (++n[d] == $(am__install_max)) { \
+		print "f", d, files[d]; n[d] = 0; files[d] = "" } } \
+	    else { print "f", d "/" $$4, $$1 } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	     if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	     test -z "$$files" || { \
+	       echo " $(INSTALL_SCRIPT) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	       $(INSTALL_SCRIPT) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	     } \
+	; done
 
-clean-embeddedrLTLIBRARIES:
-	-test -z "$(embeddedr_LTLIBRARIES)" || rm -f $(embeddedr_LTLIBRARIES)
-	@list='$(embeddedr_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
-
-libembedded.la: $(libembedded_la_OBJECTS) $(libembedded_la_DEPENDENCIES) $(EXTRA_libembedded_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libembedded_la_LINK) -rpath $(embeddeddir) $(libembedded_la_OBJECTS) $(libembedded_la_LIBADD) $(LIBS)
-
-libembeddedr.la: $(libembeddedr_la_OBJECTS) $(libembeddedr_la_DEPENDENCIES) $(EXTRA_libembeddedr_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libembeddedr_la_LINK) -rpath $(embeddedrdir) $(libembeddedr_la_OBJECTS) $(libembeddedr_la_LIBADD) $(LIBS)
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || exit 0; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	       sed -e 's,.*/,,;$(transform)'`; \
+	dir='$(DESTDIR)$(bindir)'; $(am__uninstall_files_from_dir)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -760,12 +737,15 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	$(MAKE) $(AM_MAKEFLAGS) \
+	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
+	  dist-hook
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(SCRIPTS)
 installdirs:
-	for dir in "$(DESTDIR)$(embeddeddir)" "$(DESTDIR)$(embeddedrdir)"; do \
+	for dir in "$(DESTDIR)$(pyapidir)" "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -803,8 +783,8 @@ maintainer-clean-generic:
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
-clean-am: clean-embeddedLTLIBRARIES clean-embeddedrLTLIBRARIES \
-	clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libtool clean-pyapiLTLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -823,14 +803,13 @@ info: info-am
 
 info-am:
 
-install-data-am: install-embeddedLTLIBRARIES \
-	install-embeddedrLTLIBRARIES
+install-data-am: install-pyapiLTLIBRARIES
 
 install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-binSCRIPTS install-exec-local
 
 install-html: install-html-am
 
@@ -869,38 +848,83 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-embeddedLTLIBRARIES \
-	uninstall-embeddedrLTLIBRARIES
+uninstall-am: uninstall-binSCRIPTS uninstall-local \
+	uninstall-pyapiLTLIBRARIES
 
 .MAKE: all check install install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-embeddedLTLIBRARIES clean-embeddedrLTLIBRARIES \
-	clean-generic clean-libtool cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am \
-	install-embeddedLTLIBRARIES install-embeddedrLTLIBRARIES \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-pyapiLTLIBRARIES cscopelist-am ctags \
+	ctags-am dist-hook distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binSCRIPTS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-exec-local \
+	install-html install-html-am install-info install-info-am \
+	install-man install-pdf install-pdf-am install-ps \
+	install-ps-am install-pyapiLTLIBRARIES install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am \
-	uninstall-embeddedLTLIBRARIES uninstall-embeddedrLTLIBRARIES
+	tags tags-am uninstall uninstall-am uninstall-binSCRIPTS \
+	uninstall-local uninstall-pyapiLTLIBRARIES
 
 .PRECIOUS: Makefile
 
-$(do)install-embeddedLTLIBRARIES : 
-libembedded_la-embedded.lo: embedded.c embedded.h ../common/options/monet_options.h ../mal/mal/../../gdk/gdk.h ../mal/mal/mal.h ../mal/mal/mal_resolve.h ../mal/mal/mal_profiler.h ../mal/mal/mal_client.h ../mal/mal/mal_linker.h ../sql/backends/monet5/sql_scenario.h ../gdk/../common/options/monet_options.h ../gdk/gdk_utils.h ../sql/backends/monet5/sql_execute.h ../sql/backends/monet5/sql.h ../sql/server/../include/sql_mem.h ../sql/server/../../gdk/gdk.h ../sql/server/sql_scan.h ../sql/server/../include/sql_list.h ../sql/server/../../common/stream/stream.h ../sql/server/../common/sql_types.h ../sql/server/../common/sql_backend.h ../sql/server/../include/sql_catalog.h ../sql/server/../include/sql_relation.h ../sql/server/../storage/sql_storage.h ../sql/server/../include/sql_keyword.h ../sql/server/sql_atom.h ../sql/server/../include/sql_query.h ../sql/server/sql_mvc.h ../sql/storage/bat/../../include/sql_catalog.h ../sql/storage/bat/res_table.h decompress.c inlined_scripts.c
-	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libembedded_la_CFLAGS) $(CFLAGS) $(embedded_CFLAGS) -c -o libembedded_la-embedded.lo `test -f 'embedded.c' || echo '$(srcdir)/'`embedded.c
-embedded.o embedded.lo: embedded.c embedded.h ../common/options/monet_options.h ../mal/mal/../../gdk/gdk.h ../mal/mal/mal.h ../mal/mal/mal_resolve.h ../mal/mal/mal_profiler.h ../mal/mal/mal_client.h ../mal/mal/mal_linker.h ../sql/backends/monet5/sql_scenario.h ../gdk/../common/options/monet_options.h ../gdk/gdk_utils.h ../sql/backends/monet5/sql_execute.h ../sql/backends/monet5/sql.h ../sql/server/../include/sql_mem.h ../sql/server/../../gdk/gdk.h ../sql/server/sql_scan.h ../sql/server/../include/sql_list.h ../sql/server/../../common/stream/stream.h ../sql/server/../common/sql_types.h ../sql/server/../common/sql_backend.h ../sql/server/../include/sql_catalog.h ../sql/server/../include/sql_relation.h ../sql/server/../storage/sql_storage.h ../sql/server/../include/sql_keyword.h ../sql/server/sql_atom.h ../sql/server/../include/sql_query.h ../sql/server/sql_mvc.h ../sql/storage/bat/../../include/sql_catalog.h ../sql/storage/bat/res_table.h decompress.c inlined_scripts.c
-embeddedr.o embeddedr.lo: embeddedr.c embeddedr.h embedded.h ../common/options/monet_options.h ../mal/mal/../../gdk/gdk.h ../mal/mal/mal.h ../mal/modules/kernel/../../mal/mal.h ../mal/modules/kernel/../../mal/mal_exception.h ../mal/modules/kernel/mmath.h ../mal/mal/mal_resolve.h ../mal/mal/mal_profiler.h ../mal/mal/mal_client.h ../mal/mal/mal_linker.h ../sql/backends/monet5/sql_scenario.h ../gdk/../common/options/monet_options.h ../gdk/gdk_utils.h converters.c.h
-$(do)install-embeddedrLTLIBRARIES :  install-embeddedLTLIBRARIES
-libembeddedr_la-embeddedr.lo: embeddedr.c embeddedr.h embedded.h ../common/options/monet_options.h ../mal/mal/../../gdk/gdk.h ../mal/mal/mal.h ../mal/modules/kernel/../../mal/mal.h ../mal/modules/kernel/../../mal/mal_exception.h ../mal/modules/kernel/mmath.h ../mal/mal/mal_resolve.h ../mal/mal/mal_profiler.h ../mal/mal/mal_client.h ../mal/mal/mal_linker.h ../sql/backends/monet5/sql_scenario.h ../gdk/../common/options/monet_options.h ../gdk/gdk_utils.h converters.c.h
-	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libembeddedr_la_CFLAGS) $(CFLAGS) $(embeddedr_CFLAGS) -c -o libembeddedr_la-embeddedr.lo `test -f 'embeddedr.c' || echo '$(srcdir)/'`embeddedr.c
+
+install-exec-local-50_pyapi.mal: 50_pyapi.mal
+	-mkdir -p $(DESTDIR)$(libdir)/monetdb5/autoload
+	-$(RM) $(DESTDIR)$(libdir)/monetdb5/autoload/50_pyapi.mal
+	$(INSTALL_DATA) $< $(DESTDIR)$(libdir)/monetdb5/autoload/50_pyapi.mal
+
+uninstall-local-50_pyapi.mal: 
+	$(RM) $(DESTDIR)$(libdir)/monetdb5/autoload/50_pyapi.mal
+
+connection.o connection.lo: connection.c connection.h pytypes.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h type_conversion.h ../../../../../gdk/gdk_interprocess.h
+pyapi.o pyapi.lo: pyapi.c pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h connection.h pytypes.h unicode.h type_conversion.h formatinput.h ../../../../../gdk/gdk_interprocess.h
+formatinput.o formatinput.lo: formatinput.c formatinput.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h type_conversion.h
+unicode.o unicode.lo: unicode.c unicode.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h
+pytypes.o pytypes.lo: pytypes.c pytypes.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h
+type_conversion.o type_conversion.lo: type_conversion.c type_conversion.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h unicode.h
+$(do)install-pyapiLTLIBRARIES : 
+lib_pyapi_la-pyapi.lo: pyapi.c pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h connection.h pytypes.h unicode.h type_conversion.h formatinput.h ../../../../../gdk/gdk_interprocess.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(pyapi_CFLAGS) -c -o lib_pyapi_la-pyapi.lo `test -f 'pyapi.c' || echo '$(srcdir)/'`pyapi.c
+lib_pyapi_la-unicode.lo: unicode.c unicode.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(unicode_CFLAGS) -c -o lib_pyapi_la-unicode.lo `test -f 'unicode.c' || echo '$(srcdir)/'`unicode.c
+lib_pyapi_la-pytypes.lo: pytypes.c pytypes.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(pytypes_CFLAGS) -c -o lib_pyapi_la-pytypes.lo `test -f 'pytypes.c' || echo '$(srcdir)/'`pytypes.c
+lib_pyapi_la-type_conversion.lo: type_conversion.c type_conversion.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h unicode.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(type_conversion_CFLAGS) -c -o lib_pyapi_la-type_conversion.lo `test -f 'type_conversion.c' || echo '$(srcdir)/'`type_conversion.c
+lib_pyapi_la-formatinput.lo: formatinput.c formatinput.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h type_conversion.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(formatinput_CFLAGS) -c -o lib_pyapi_la-formatinput.lo `test -f 'formatinput.c' || echo '$(srcdir)/'`formatinput.c
+lib_pyapi_la-connection.lo: connection.c connection.h pytypes.h pyapi.h ../../../../../gdk/gdk_atoms.h ../../../../../gdk/../common/options/monet_options.h ../../../../../gdk/gdk_utils.h ../../../../../gdk/gdk_system.h ../../../../../gdk/gdk_atomic.h ../../../../../gdk/gdk_posix.h ../../../../../gdk/../common/stream/stream.h ../../../../../gdk/gdk_delta.h ../../../../../gdk/gdk_hash.h ../../../../../gdk/gdk_bbp.h ../../../../../gdk/gdk_calc.h ../../../../../gdk/gdk.h ../../../../../sql/include/sql_catalog.h ../../../../../sql/backends/monet5/sql_scenario.h ../../../../../sql/backends/monet5/sql_cast.h ../../../../../sql/backends/monet5/sql_execute.h ../../../../../sql/storage/../include/sql_catalog.h ../../../../../sql/storage/../../gdk/gdk_logger.h ../../../../../sql/storage/sql_storage.h unspecified_evil.h type_conversion.h ../../../../../gdk/gdk_interprocess.h
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_pyapi_la_CFLAGS) $(CFLAGS) $(connection_CFLAGS) -c -o lib_pyapi_la-connection.lo `test -f 'connection.c' || echo '$(srcdir)/'`connection.c
+install-exec-local-pyapi.mal: pyapi.mal
+	-mkdir -p $(DESTDIR)$(libdir)/monetdb5
+	-$(RM) $(DESTDIR)$(libdir)/monetdb5/pyapi.mal
+	$(INSTALL_DATA) $< $(DESTDIR)$(libdir)/monetdb5/pyapi.mal
+
+uninstall-local-pyapi.mal: 
+	$(RM) $(DESTDIR)$(libdir)/monetdb5/pyapi.mal
+
+uninstall-local-:
+install-exec-local-:
+script_pyapi_locatepython.bat: pyapi_locatepython.bat
+install-exec-local-pyapi_locatepython.bat: pyapi_locatepython.bat
+	-mkdir -p $(DESTDIR)$(prefix)
+	-$(RM) $(DESTDIR)$(prefix)/pyapi_locatepython.bat
+	$(INSTALL) -m0755 $< $(DESTDIR)$(prefix)/pyapi_locatepython.bat
+
+uninstall-local-pyapi_locatepython.bat: 
+	$(RM) $(DESTDIR)$(prefix)/pyapi_locatepython.bat
+
+dist-hook:
+	mkdir -p $(distdir)/Tests
+	cp -pR $(srcdir)/Tests/* $(distdir)/Tests
+install-exec-local-SCRIPTS: 
+all-local-SCRIPTS: $(bin_SCRIPTS)
+uninstall-local: uninstall-local-$(C_pyapi_locatepython_bat) uninstall-local-50_pyapi.mal uninstall-local-pyapi.mal
+install-exec-local: install-exec-local-$(C_pyapi_locatepython_bat) install-exec-local-50_pyapi.mal install-exec-local-pyapi.mal
 
   include $(top_srcdir)/buildtools/conf/rules.mk
 

@@ -3701,6 +3701,8 @@ mal/modules/kernel/Makefile
 mal/modules/mal/Makefile
 sql/storage/bat/Makefile
 sql/backends/monet5/Makefile
+sql/backends/monet5/UDF/Makefile
+sql/backends/monet5/UDF/pyapi/Makefile
 ])
 AC_OUTPUT
 

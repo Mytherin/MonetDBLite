@@ -105,6 +105,12 @@ sql/backends/monet5/
 	$(libdir)/monetdb5/sql_aggr_hge.mal#HAVE_HGE
 	$(libdir)/monetdb5/sql_hge.mal#HAVE_HGE
 	$(libdir)/monetdb5/sql_decimal_hge.mal#HAVE_HGE
+sql/backends/monet5/UDF/
+sql/backends/monet5/UDF/pyapi/#HAVE_LIBPY
+	$(libdir)/monetdb5/autoload/50_pyapi.mal
+	$(libdir)/monetdb5/lib_pyapi.so
+	$(libdir)/monetdb5/pyapi.mal
+	$(prefix)/pyapi_locatepython.bat#NATIVE_WIN32
 sql/scripts/
 	$(libdir)/monetdb5/createdb/80_statistics.sql
 	$(libdir)/monetdb5/createdb/39_analytics.sql
